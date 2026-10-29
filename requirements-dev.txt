@@ -1,0 +1,7 @@
+-r requirements.txt
+boto3
+pytest
+pytest-cov
+ruff
+mypy
+pre-commit

@@ -1,0 +1,4 @@
+# Infrastructure (CDK app). The Lambda code itself needs no extra packages:
+# boto3 is already included in the AWS Lambda Python runtime.
+aws-cdk-lib>=2.170,<3
+constructs>=10,<11

@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Type-check
+        run: mypy
+
+      - name: Unit and infrastructure tests
+        run: pytest --cov --cov-report=term-missing
+
+      - name: CDK synth
+        run: npx --yes aws-cdk@2 synth -c allowedUserIds=1 --quiet
+        env:
+          CDK_DEFAULT_REGION: eu-north-1
+          CDK_DEFAULT_ACCOUNT: "000000000000"

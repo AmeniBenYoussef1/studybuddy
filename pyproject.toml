@@ -1,0 +1,32 @@
+[project]
+name = "studybuddy"
+version = "0.1.0"
+description = "Multimodal AI study assistant on Telegram, built on AWS"
+authors = [{ name = "Ameni Ben Youssef" }]
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "infra"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+ignore = ["S101"]  # asserts are fine in tests
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "src"
+packages = ["shared", "webhook", "worker"]
+strict = true
+ignore_missing_imports = true
